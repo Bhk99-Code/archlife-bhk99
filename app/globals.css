@@ -3,12 +3,27 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    box-sizing: border-box;
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --radius: 0.5rem;
   }
-  
+
+  * {
+    @apply border-neutral-200;
+  }
+
   body {
     @apply bg-white text-neutral-900;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
@@ -24,15 +39,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-neutral-100;
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-neutral-400 rounded-full;
+  background: #888;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary-500;
+  background: #ff6600;
 }
 
 /* Smooth Scrolling */
@@ -40,12 +56,19 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Selection */
+/* Selection Color */
 ::selection {
-  @apply bg-primary-500 text-white;
+  background-color: #ff6600;
+  color: white;
 }
 
-/* Focus Visible */
+::-moz-selection {
+  background-color: #ff6600;
+  color: white;
+}
+
+/* Focus Styles */
 :focus-visible {
-  @apply outline-primary-500 outline-2 outline-offset-2;
+  outline: 2px solid #ff6600;
+  outline-offset: 2px;
 }
