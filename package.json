@@ -1,40 +1,74 @@
-{
-  "name": "archlife-bhk99",
-  "version": "1.0.0",
-  "description": "ArchLife BHK99 - Premium Architecture Services",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start -p 3000",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "14.1.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "mongoose": "^8.0.0",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2",
-    "framer-motion": "^10.16.0",
-    "three": "^0.160.0",
-    "@react-three/fiber": "^8.15.0",
-    "@react-three/drei": "^9.92.0",
-    "react-intersection-observer": "^9.5.3",
-    "lucide-react": "^0.303.0",
-    "nodemailer": "^6.9.7",
-    "multer": "^1.4.5-lts.1",
-    "cloudinary": "^1.41.0",
-    "recharts": "^2.10.0"
-  },
-  "devDependencies": {
-    "@types/node": "20.10.0",
-    "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.0",
-    "typescript": "^5.6.3",
-    "tailwindcss": "3.4.0",
-    "autoprefixer": "10.4.16",
-    "postcss": "8.4.32",
-    "eslint": "8.55.0",
-    "eslint-config-next": "14.1.0"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --radius: 0.5rem;
   }
+
+  * {
+    @apply border-neutral-200;
+  }
+
+  body {
+    @apply bg-white text-neutral-900;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff6600;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection Color */
+::selection {
+  background-color: #ff6600;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #ff6600;
+  color: white;
+}
+
+/* Focus Styles */
+:focus-visible {
+  outline: 2px solid #ff6600;
+  outline-offset: 2px;
 }
