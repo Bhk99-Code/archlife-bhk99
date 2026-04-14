@@ -1,40 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Admin from '@/models/Admin';
+import bcrypt from 'bcryptjs';
 
-// POST - Create initial admin (only works if no admin exists)
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
+    console.log('🔵 Admin init API called');
+    
+    // Connect to database
     await dbConnect();
-
-    // Check if any admin already exists
-    const adminCount = await Admin.countDocuments();
-    if (adminCount > 0) {
+    console.log('✅ Database connection established');
+    
+    // Check if admin exists
+    const existingAdmin = await Admin.findOne();
+    console.log('Existing admin check:', existingAdmin ? 'Found' : 'Not found');
+    
+    if (existingAdmin) {
       return NextResponse.json(
-        { success: false, error: 'Admin already exists. Use login instead.' },
+        { success: false, message: 'Admin already exists' },
         { status: 400 }
       );
     }
-
-    const { email, password, name } = await request.json();
-
-    // Create first admin
+    
+    // Create new admin
+    const hashedPassword = await bcrypt.hash(
+      process.env.ADMIN_PASSWORD || 'Admin@123',
+      10
+    );
+    
     const admin = await Admin.create({
-      email: email || process.env.ADMIN_EMAIL || 'admin@archlifebhk99.com',
-      password: password || process.env.ADMIN_PASSWORD || 'Admin@123',
-      name: name || 'Admin',
-      role: 'super-admin',
+      email: process.env.ADMIN_EMAIL || 'admin@archlifebhk99.com',
+      password: hashedPassword,
+      name: 'Admin',
     });
-
-    return NextResponse.json({
-      success: true,
-      message: 'Admin created successfully',
-      data: {
-        email: admin.email,
-        name: admin.name,
-      },
-    });
+    
+    console.log('✅ Admin created:', admin.email);
+    
+    return NextResponse.json(
+      { success: true, message: 'Admin created successfully' },
+      { status: 201 }
+    );
   } catch (error: any) {
+    console.error('❌ Admin init error:', error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }
@@ -42,21 +49,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET - Check if admin exists
-export async function GET() {
-  try {
-    await dbConnect();
-    
-    const adminCount = await Admin.countDocuments();
-    
-    return NextResponse.json({
-      success: true,
-      adminExists: adminCount > 0,
-    });
-  } catch (error: any) {
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
+// Support GET request too
+export async function GET(req: NextRequest) {
+  return POST(req);
 }
